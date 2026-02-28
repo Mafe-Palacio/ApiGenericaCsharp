@@ -8,7 +8,7 @@
 using BCrypt.Net;
 using System;
 
-namespace ApiGenericaCsharp.Servicios.Utilidades
+namespace ApiGenerica.Servicios.Utilidades
 {
     /// <summary>
     /// Clase estática para operaciones de encriptación usando BCrypt.

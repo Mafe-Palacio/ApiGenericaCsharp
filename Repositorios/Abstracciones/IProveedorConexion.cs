@@ -9,7 +9,7 @@
 
 using System;
 
-namespace ApiGenericaCsharp.Servicios.Abstracciones
+namespace ApiGenerica.Servicios.Abstracciones
 {
     /// <summary>
     /// Contrato que define cómo obtener información de conexión a base de datos.

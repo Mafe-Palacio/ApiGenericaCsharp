@@ -8,9 +8,9 @@
 
 using Microsoft.Extensions.Configuration;     // Permite leer appsettings.*.json
 using System;                                  // Para InvalidOperationException
-using ApiGenericaCsharp.Servicios.Abstracciones;   // Para IProveedorConexion
+using ApiGenerica.Servicios.Abstracciones;   // Para IProveedorConexion
 
-namespace ApiGenericaCsharp.Servicios.Conexion
+namespace ApiGenerica.Servicios.Conexion
 {
    /// <summary>
    /// Implementación concreta que lee "DatabaseProvider" y "ConnectionStrings" desde IConfiguration.
