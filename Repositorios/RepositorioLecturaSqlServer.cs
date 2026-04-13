@@ -1,6 +1,6 @@
 // --------------------------------------------------------------
 // Archivo: RepositorioLecturaSqlServer.cs (VERSIÓN MEJORADA CON DETECCIÓN DE TIPOS)
-// Ruta: ApiGenerica/Repositorios/RepositorioLecturaSqlServer.cs
+// Ruta: ApiGenericaCsharp/Repositorios/RepositorioLecturaSqlServer.cs
 // Mejoras: Detección automática de tipos, conversión inteligente, manejo DATE vs DATETIME
 // --------------------------------------------------------------
 
@@ -205,7 +205,7 @@ namespace ApiGenerica.Repositorios
             string esquemaFinal = string.IsNullOrWhiteSpace(esquema) ? "dbo" : esquema.Trim();
             int limiteFinal = limite ?? 1000;
 
-            string sql = $"SELECT TOP ({limiteFinal}) * FROM [{esquemaFinal}].[{nombreTabla}]";
+            string sql = $"SELECT TOP ({limiteFinal}) * FROM [{esquemaFinal}].[{nombreTabla}] WHERE [estado] = 0";
             var resultados = new List<Dictionary<string, object?>>();
 
             try
@@ -224,6 +224,9 @@ namespace ApiGenerica.Repositorios
                     for (int i = 0; i < lector.FieldCount; i++)
                     {
                         string nombreColumna = lector.GetName(i);
+                        // Excluir el campo 'estado' de los resultados
+                        if (nombreColumna.Equals("estado", StringComparison.OrdinalIgnoreCase))
+                            continue;
                         object? valorColumna = lector.IsDBNull(i) ? null : lector.GetValue(i);
                         fila[nombreColumna] = valorColumna;
                     }
@@ -269,13 +272,13 @@ namespace ApiGenerica.Repositorios
                 
                 if (esBusquedaFechaSoloEnDatetime)
                 {
-                    sql = $"SELECT * FROM [{esquemaFinal}].[{nombreTabla}] WHERE CAST([{nombreClave}] AS DATE) = @valor";
+                    sql = $"SELECT * FROM [{esquemaFinal}].[{nombreTabla}] WHERE CAST([{nombreClave}] AS DATE) = @valor AND [estado] = 0";
                     valorConvertido = ExtraerSoloFecha(valor);
                     tipoParametro = SqlDbType.Date;
                 }
                 else
                 {
-                    sql = $"SELECT * FROM [{esquemaFinal}].[{nombreTabla}] WHERE [{nombreClave}] = @valor";
+                    sql = $"SELECT * FROM [{esquemaFinal}].[{nombreTabla}] WHERE [{nombreClave}] = @valor AND [estado] = 0";
                     valorConvertido = ConvertirValor(valor, tipoColumna);
                     tipoParametro = tipoColumna ?? SqlDbType.NVarChar;
                 }
@@ -304,6 +307,9 @@ namespace ApiGenerica.Repositorios
                     for (int i = 0; i < lector.FieldCount; i++)
                     {
                         string nombreColumna = lector.GetName(i);
+                        // Excluir el campo 'estado' de los resultados
+                        if (nombreColumna.Equals("estado", StringComparison.OrdinalIgnoreCase))
+                            continue;
                         object? valorColumna = lector.IsDBNull(i) ? null : lector.GetValue(i);
                         fila[nombreColumna] = valorColumna;
                     }
@@ -333,7 +339,7 @@ namespace ApiGenerica.Repositorios
             string esquemaFinal = string.IsNullOrWhiteSpace(esquema) ? "dbo" : esquema.Trim();
 
             var datosFinales = new Dictionary<string, object?>(datos);
-            
+                   
             // Encriptar campos si se especificaron
             if (!string.IsNullOrWhiteSpace(camposEncriptar))
             {
@@ -507,7 +513,7 @@ namespace ApiGenerica.Repositorios
                 var tipoColumna = await DetectarTipoColumnaAsync(nombreTabla, esquemaFinal, nombreClave);
                 object valorConvertido = ConvertirValor(valorClave, tipoColumna);
 
-                string sql = $"DELETE FROM [{esquemaFinal}].[{nombreTabla}] WHERE [{nombreClave}] = @valorClave";
+                string sql = $"UPDATE [{esquemaFinal}].[{nombreTabla}] SET [estado] = 1 WHERE [{nombreClave}] = @valorClave";
                 
                 string cadena = _proveedorConexion.ObtenerCadenaConexion();
 
