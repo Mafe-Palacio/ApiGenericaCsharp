@@ -1,6 +1,6 @@
 // --------------------------------------------------------------
 // Archivo: RepositorioConsultasPostgreSQL.cs 
-// Ruta: ApiGenericaCsharp/Repositorios/RepositorioConsultasPostgreSQL.cs
+// Ruta: ApiGenerica/Repositorios/RepositorioConsultasPostgreSQL.cs
 // Mejora: Manejo inteligente de tipos (json, numéricos, booleanos y fechas)
 //         y DateTime con hora 00:00:00 como DATE en consultas
 // --------------------------------------------------------------
