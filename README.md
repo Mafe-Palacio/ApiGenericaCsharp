@@ -10,6 +10,14 @@ API REST generica para operaciones CRUD sobre cualquier tabla de base de datos. 
 
 ---
 
+## 🌐 API publicada
+
+> **Swagger UI:** [http://apigenericacsharp-mafe.runasp.net/swagger/index.html](http://apigenericacsharp-mafe.runasp.net/swagger/index.html)
+
+![Swagger UI](swagger-preview.png)
+
+---
+
 ## Tabla de Contenidos
 
 - [Caracteristicas](#caracteristicas)
